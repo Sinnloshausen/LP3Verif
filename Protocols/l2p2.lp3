@@ -1,0 +1,13 @@
+process L2P2
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Compute(h=hash(pid));
+			if s_diverse then
+				Query(h,R,servs,t);
+				Compute(P=swap(pids));
+				Query(P,R,servs,t);
+			end
+		end
+	end
+end

@@ -1,0 +1,7 @@
+process Freudiger
+	!
+		Query(pid,loc,serv,t);
+		Compute(P=swap(pid));
+		Query(P,loc,serv,t);
+	end
+end

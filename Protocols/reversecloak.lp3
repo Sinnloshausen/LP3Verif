@@ -1,0 +1,8 @@
+process ReverseCloak
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Query(pid,R,serv,t);
+		end
+	end
+end

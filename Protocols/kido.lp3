@@ -1,0 +1,8 @@
+process Kido
+	!
+		if dummies then
+			Compute(R=MBB(locs));
+			Query(pid,R,serv,t);
+		end
+	end
+end

@@ -1,0 +1,8 @@
+process Assam
+	!
+		if k_user then
+			Compute(T=noise(ts));
+			Query(pids,locs,servs,T);
+		end
+	end
+end

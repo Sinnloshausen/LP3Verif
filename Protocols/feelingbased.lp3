@@ -1,0 +1,11 @@
+process Feeling-Based
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Compute(T=MBB(ts));
+			if l_diverse then
+				Query(pid,R,serv,T);
+			end
+		end
+	end
+end

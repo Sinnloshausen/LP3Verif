@@ -1,0 +1,9 @@
+process SybilQuery
+	!
+		if dummies then
+			Compute(h=hash(pid));
+			Compute(R=MBB(locs));
+			Query(h,R,serv,t);
+		end
+	end
+end

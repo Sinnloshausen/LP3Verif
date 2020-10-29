@@ -1,0 +1,9 @@
+process PRIVE
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Compute(h=hash(pid));
+			Query(h,R,serv,t);
+		end
+	end
+end

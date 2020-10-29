@@ -1,0 +1,7 @@
+process MaPIR
+	!
+		Compute(h=hash(pid));
+		Compute(R=redund(loc));
+		Query(h,R,serv,t);
+	end
+end

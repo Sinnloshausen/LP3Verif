@@ -1,0 +1,5 @@
+process MobiCrowd
+	!
+		Query(pid,loc,serv,t);
+	end
+end

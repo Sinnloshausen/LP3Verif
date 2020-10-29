@@ -1,0 +1,8 @@
+process Hoh
+	!
+		if k_user then
+			Compute(T=MBB(ts));
+			Query(pid,loc,serv,T);
+		end
+	end
+end

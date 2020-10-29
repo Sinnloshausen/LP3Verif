@@ -1,0 +1,7 @@
+process CaDSA
+	!
+		if dummies then
+			kQuery(pid_i,loc_i,serv_i,t_i);
+		end
+	end
+end

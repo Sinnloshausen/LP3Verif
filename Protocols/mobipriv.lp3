@@ -1,0 +1,13 @@
+process MobiPriv
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Query(pids,R,serv,t);
+		else
+			if dummies then
+				Compute(R=MBB(locs));
+				Query(pids,R,serv,t);
+			end
+		end
+	end
+end

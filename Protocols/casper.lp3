@@ -1,0 +1,10 @@
+process Casper
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			if l_diverse then
+				Query(pid,R,serv,t);
+			end
+		end
+	end
+end

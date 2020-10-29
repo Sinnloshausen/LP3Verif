@@ -1,0 +1,9 @@
+process CliqueCloak
+	!
+		if k_users then
+			Compute(R=MBB(locs));
+			Compute(id=rand(pid));
+			Query(id,R,serv,t);
+		end
+	end
+end

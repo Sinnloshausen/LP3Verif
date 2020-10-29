@@ -1,0 +1,7 @@
+process SpaceTwist
+	!
+		Compute(h=hash(pid));
+		Compute(R=noise(loc));
+		Query(h,R,serv,t);
+	end
+end

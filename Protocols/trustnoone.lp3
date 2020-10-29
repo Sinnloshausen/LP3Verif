@@ -1,0 +1,8 @@
+process TrustNoOne
+	!
+		Compute(h=hash(pid));
+		Compute(R=redund(loc));
+		Compute(S=redund(serv));
+		Query(h,R,S,t);
+	end
+end

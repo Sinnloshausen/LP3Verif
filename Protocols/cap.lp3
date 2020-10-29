@@ -1,0 +1,6 @@
+process CAP
+	!
+		Compute(R=noise(loc));
+		Query(pid,R,serv,t);
+	end
+end
