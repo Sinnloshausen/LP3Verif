@@ -1,10 +1,19 @@
 process LocationDiversity
 	!
-		if k_users then
-			if l_diverse then
-				Compute(R=MBB(locs));
-				Query(pid,R,serv,t);
+		if k_users
+			if l_diverse
+				Compute(R=MBB(locs))
+				Query(pid,R,serv,t)
 			end
 		end
 	end
 end
+
+property F1
+	G not K_id
+property F2
+	G not (K_loc and K_t)
+property F3
+	G not Cont (K_loc and K_id)
+property F4
+	G not K_serv

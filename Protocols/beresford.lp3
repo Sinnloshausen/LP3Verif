@@ -1,7 +1,16 @@
 process Beresford
 	!
-		Query(pid,loc,serv,t);
-		Compute(P=swap(pid));
-		Query(P,loc,serv,t);
+		Query(pid,loc,serv,t)
+		Compute(P=swap(pid))
+		Query(P,loc,serv,t)
 	end
 end
+
+property F1
+	G not K_id
+property F2
+	G not (K_loc and K_t)
+property F3
+	G not Cont (K_loc and K_id)
+property F4
+	G not K_serv
