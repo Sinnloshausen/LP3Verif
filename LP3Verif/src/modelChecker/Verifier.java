@@ -10,7 +10,6 @@ import processCalculus.State;
 import processCalculus.Trace;
 import properties.EpistemicFormula;
 import properties.StaticFormula;
-import solver.SmtHandler;
 
 public abstract class Verifier {
 	

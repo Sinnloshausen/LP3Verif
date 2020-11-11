@@ -9,7 +9,7 @@ import java.util.Set;
 import utils.Rules;
 import utils.Rules.RedRule;
 
-public class ExtendedProcess {
+public class ExtendedProcess implements Process {
 
 	// enums
 	public enum ProcessType {

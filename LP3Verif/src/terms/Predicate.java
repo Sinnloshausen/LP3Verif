@@ -4,7 +4,12 @@ public class Predicate {
 	
 	// enum
 	public enum PredicateType {
-		K_USERS, DUMMIES, L_DIVERS, S_DIVERS, RELATION
+		K_USERS, DUMMIES, L_DIVERS, S_DIVERS, RELATION;
+		
+		@Override
+		public String toString() {
+			return name().toLowerCase();
+		}
 	}
 	
 	// class fields

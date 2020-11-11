@@ -1,14 +1,22 @@
 package terms;
 
 public class Function {
-	
+
 	// enum
 	public enum FunctionType {
 		SET, LOC, INT
 	}
 
 	public enum LocFunction {
-		MBB, DIST, MOVE
+		MBB, DIST, MOVE, NOISE, REDUND;
+
+		@Override
+		public String toString() {
+			if (!name().equals("MBB")) {
+				return name().toLowerCase();
+			}
+			return name();
+		}
 	}
 
 	public enum SetFunction {
@@ -16,15 +24,20 @@ public class Function {
 	}
 
 	public enum IntFunction {
-		HASH, RAND
+		HASH, RAND, SWAP;
+
+		@Override
+		public String toString() {
+			return name().toLowerCase();
+		}
 	}
-	
+
 	// class fields
 	private FunctionType type;
 	private SetFunction sf;
 	private LocFunction lf;
 	private IntFunction inf;
-	
+
 	// full constructor
 	public Function(FunctionType type, SetFunction sf, LocFunction lf, IntFunction inf) {
 		this.type = type;
@@ -32,17 +45,17 @@ public class Function {
 		this.lf = lf;
 		this.inf = inf;
 	}
-	
+
 	// SET constructor
 	public Function(FunctionType type, SetFunction sf) {
 		this(type, sf, null, null);
 	}
-	
+
 	// LOC constructor
 	public Function(FunctionType type, LocFunction lf) {
 		this(type, null, lf, null);
 	}
-	
+
 	// INT constructor
 	public Function(FunctionType type, IntFunction inf) {
 		this(type, null, null, inf);
@@ -86,13 +99,13 @@ public class Function {
 		String name = "";
 		switch (type) {
 		case LOC:
-			name = lf.name();
+			name = lf.toString();
 			break;
 		case SET:
-			name = sf.name();
+			name = sf.toString();
 			break;
 		case INT:
-			name = inf.name();
+			name = inf.toString();
 			break;
 		}
 		return name;

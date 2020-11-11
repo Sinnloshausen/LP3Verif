@@ -34,7 +34,7 @@ public class EpistemicFormula extends Formula {
 		this(type, null, phi, null);
 	}
 	
-	// DISJUNCTION constructor
+	// DISJUNCTION/CONJUNCTION constructor
 	public EpistemicFormula(FormulaType type, EpistemicFormula phi, EpistemicFormula phi2) {
 		this(type, null, phi, phi2);
 	}
@@ -106,7 +106,7 @@ public class EpistemicFormula extends Formula {
 		case STATIC:
 			return new EpistemicFormula(FormulaType.STATIC, delta.negate());
 		case CONT:
-			new EpistemicFormula(FormulaType.CONTINV, delta);
+			return new EpistemicFormula(FormulaType.CONTINV, delta);
 		case GLOBAL:
 			return new EpistemicFormula(FormulaType.FUTURE, phi.negate());
 		case FUTURE:
@@ -132,6 +132,18 @@ public class EpistemicFormula extends Formula {
 	
 	public EpistemicFormula getPhi2() {
 		return phi2;
+	}
+
+	public void setPhi(EpistemicFormula phi) {
+		this.phi = phi;
+	}
+
+	public void setPhi2(EpistemicFormula phi2) {
+		this.phi2 = phi2;
+	}
+
+	public void setDelta(StaticFormula delta) {
+		this.delta = delta;
 	}
 
 	// equals
@@ -193,10 +205,10 @@ public class EpistemicFormula extends Formula {
 			fml = phi + " V " + phi2;
 			break;
 		case GLOBAL:
-			fml = "\u25FB " + phi;
+			fml = "G " + phi;
 			break;
 		case FUTURE:
-			fml = "\u25C7 " + phi;
+			fml = "F " + phi;
 			break;
 		case CONJUNCTION:
 			fml = phi + " ^ " + phi2;

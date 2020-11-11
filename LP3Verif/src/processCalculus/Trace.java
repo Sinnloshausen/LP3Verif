@@ -7,17 +7,17 @@ public class Trace {
 
 	// class fields
 	private List<ExtendedProcess> states;
-	
+
 	// full constructur
 	public Trace(List<ExtendedProcess> states) {
 		this.states = states;
 	}
-	
+
 	// copy constructor
 	public Trace(Trace old) {
 		this(new ArrayList<>(old.getStates()));
 	}
-	
+
 	// empty constructor
 	public Trace() {
 		this(new ArrayList<ExtendedProcess>());
@@ -27,28 +27,31 @@ public class Trace {
 	public int length() {
 		return states.size();
 	}
-	
+
 	public List<State> getSigmas() {
 		ArrayList<State> sigmas = new ArrayList<State>();
 		for (ExtendedProcess A : states) {
-			sigmas.add(A.getSigma());
+			// only add states with new query state
+			if (!sigmas.contains(A.getSigma())) {
+				sigmas.add(A.getSigma());
+			}
 		}
 		return sigmas;
 	}
-	
+
 	// getter and setter
 	public List<ExtendedProcess> getStates() {
 		return states;
 	}
-	
+
 	public ExtendedProcess getState(int index) {
 		return states.get(index);
 	}
-	
+
 	public Trace getSubset(int start, int end) {
 		return new Trace(states.subList(start, end));
 	}
-	
+
 	public void addState(ExtendedProcess state) {
 		states.add(state);
 	}

@@ -1,12 +1,12 @@
 package processCalculus;
 
-import locationsAndStuff.MultiQuery;
-import locationsAndStuff.Query;
+import terms.MultiQuery;
 import terms.Name;
 import terms.Predicate;
+import terms.Query;
 import terms.Term;
 
-public class PlainProcess {
+public class PlainProcess implements Process {
 
 	// enum
 	public enum ProcessType {

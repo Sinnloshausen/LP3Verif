@@ -22,9 +22,9 @@ public class Witness {
 		String w = "";
 		if (!bool) {
 			w = "Witness:\n";
-			w += "Representative User: " + witness.substring(1, 31) + "\n";
-			w += "Other User Location: " + witness.substring(32, 42) + "\n";
-			w += "Query: " + witness.substring(42, witness.length()-1) + "\n";
+			w += "  Representative User: " + witness.substring(1, 31) + "\n";
+			w += "  Other User Location: " + witness.substring(32, 42) + "\n";
+			w += "  Query: " + witness.substring(42, witness.length()-1) + "\n";
 			return w;
 		}
 		return w;

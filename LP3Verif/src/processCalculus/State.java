@@ -3,11 +3,11 @@ package processCalculus;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import locationsAndStuff.MultiQuery;
-import locationsAndStuff.Query;
 import terms.Equation;
+import terms.MultiQuery;
 import terms.Name;
 import terms.Predicate;
+import terms.Query;
 import utils.Sets;
 
 public class State {
@@ -104,16 +104,6 @@ public class State {
 		if (getClass() != obj.getClass())
 			return false;
 		State other = (State) obj;
-		if (equations == null) {
-			if (other.equations != null)
-				return false;
-		} else if (!equations.equals(other.equations))
-			return false;
-		if (propositions == null) {
-			if (other.propositions != null)
-				return false;
-		} else if (!propositions.equals(other.propositions))
-			return false;
 		if (queries == null) {
 			if (other.queries != null)
 				return false;

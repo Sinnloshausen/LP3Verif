@@ -110,7 +110,8 @@ public class StaticFormula extends Formula {
 		case DISJUNCTION:
 			fml = delta + " V " + delta2;
 			break;
-		default:
+		case CONJUNCTION:
+			fml = delta + " ^ " + delta2;
 			break;
 		}
 		return fml;
