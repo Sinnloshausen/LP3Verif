@@ -12,8 +12,8 @@ import processCalculus.ExtendedProcess;
 import processCalculus.PlainProcess;
 import processCalculus.PlainProcess.ProcessType;
 import processCalculus.State;
-import properties.EpistemicFormula;
-import properties.EpistemicFormula.FormulaType;
+import properties.TemporalFormula;
+import properties.TemporalFormula.FormulaType;
 import properties.StaticFormula;
 import terms.Function;
 import terms.Function.FunctionType;
@@ -37,12 +37,12 @@ public class Parser {
 	private String filePath;
 	private ExtendedProcess process;
 	private String procName;
-	private List<EpistemicFormula> properties;
+	private List<TemporalFormula> properties;
 	private List<String> propNames;
 
 	public Parser(String filePath) {
 		this.filePath = filePath;
-		properties = new LinkedList<EpistemicFormula>();
+		properties = new LinkedList<TemporalFormula>();
 		propNames = new LinkedList<String>();
 	}
 
@@ -217,8 +217,8 @@ public class Parser {
 					//TODO what about parentheses and precedence?
 					// property key word found
 					propNames.add(line.substring(9).trim());
-					List<EpistemicFormula> props = new LinkedList<EpistemicFormula>();
-					EpistemicFormula f1 = null;
+					List<TemporalFormula> props = new LinkedList<TemporalFormula>();
+					TemporalFormula f1 = null;
 					StaticFormula f0 = null;
 					// read next line with property
 					line = br.readLine();
@@ -232,37 +232,37 @@ public class Parser {
 							String s1 = s.substring(1);
 							String s2 = parts[index+1].substring(0,parts[index+1].length()-1);
 							if (parts[index].equals("and")) {
-								props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.CONJUNCTION, toStatic(s1), toStatic(s2))));
+								props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.CONJUNCTION, toStatic(s1), toStatic(s2))));
 							} else if (parts[index].equals("or")) {
-								props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.DISJUNCTION, toStatic(s1), toStatic(s2))));
+								props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.DISJUNCTION, toStatic(s1), toStatic(s2))));
 							}
 							break;
 						}
 						if (s.equals("G")) {
-							props.add(new EpistemicFormula(FormulaType.GLOBAL, f1));
+							props.add(new TemporalFormula(FormulaType.GLOBAL, f1));
 						} else if (s.equals("F")) {
-							props.add(new EpistemicFormula(FormulaType.FUTURE, f1));
+							props.add(new TemporalFormula(FormulaType.FUTURE, f1));
 						} else if (s.equals("not")) {
-							props.add(new EpistemicFormula(FormulaType.NEGATION, f1));
+							props.add(new TemporalFormula(FormulaType.NEGATION, f1));
 						} else if (s.equals("Cont")) {
-							props.add(new EpistemicFormula(FormulaType.CONT, f0));
+							props.add(new TemporalFormula(FormulaType.CONT, f0));
 						} else if (s.equals("or")) {
-							props.add(new EpistemicFormula(FormulaType.DISJUNCTION, f1, f1));
+							props.add(new TemporalFormula(FormulaType.DISJUNCTION, f1, f1));
 						} else if (s.equals("and")) {
-							props.add(new EpistemicFormula(FormulaType.CONJUNCTION, f1, f1));
+							props.add(new TemporalFormula(FormulaType.CONJUNCTION, f1, f1));
 						} else if (s.equals("K_id")) {
-							props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KID)));
+							props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KID)));
 						} else if (s.equals("K_loc")) {
-							props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KLOC)));
+							props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KLOC)));
 						} else if (s.equals("K_serv")) {
-							props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KSERV)));
+							props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KSERV)));
 						} else if (s.equals("K_t")) {
-							props.add(new EpistemicFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KT)));
+							props.add(new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.KT)));
 						}
 					}
 					// now combine to one formula
-					EpistemicFormula current = null;
-					EpistemicFormula last = null;
+					TemporalFormula current = null;
+					TemporalFormula last = null;
 					for (int i = props.size()-1; i>=0; --i) {
 						current = props.get(i);
 						// break if already filled
@@ -375,7 +375,7 @@ public class Parser {
 		return process;
 	}
 
-	public List<EpistemicFormula> getProperties() {
+	public List<TemporalFormula> getProperties() {
 		return properties;
 	}
 

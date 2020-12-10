@@ -78,7 +78,7 @@ public class Term {
 		case FUNC:
 			smt += "(" + func;
 			for (Term t : terms) {
-				smt +=  " " + t.makeSMT();
+				smt +=  " " + t.makeSMTf();
 			}
 			smt += ")";
 			break;
@@ -96,6 +96,53 @@ public class Term {
 			case T:
 				smt += "(singleton " + this + ")";
 				break;
+			case LOCS:
+				// fall through
+			case TS:
+				// fall through
+			case PIDS:
+				// fall through
+			case LOCI:
+				// fall through
+			case PIDI:
+				// fall through
+			case SERVI:
+				// fall through
+			case TI:
+				// fall through
+			case SERVS:
+				smt += this;
+				break;
+			}
+			break;
+		}
+		return smt;
+	}
+
+	private String makeSMTf() {
+		// only for function terms
+		String smt = "";
+		switch (type) {
+		case FUNC:
+			smt += "(" + func;
+			for (Term t : terms) {
+				smt +=  " " + t.makeSMTf();
+			}
+			smt += ")";
+			break;
+		case NAME:
+			smt += this;
+			break;
+		case RESNAME:
+			switch (rn.getRn()) {
+			case PID:
+				// fall through
+			case LOC:
+				// fall through
+			case SERV:
+				// fall through
+			case T:
+				// fall through
 			case LOCS:
 				// fall through
 			case TS:

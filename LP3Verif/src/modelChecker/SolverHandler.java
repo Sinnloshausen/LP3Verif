@@ -99,12 +99,12 @@ public class SolverHandler {
 				//TODO debug info
 				//System.out.println("Violation of property found");
 				//System.out.println(lastLine);
-				return new Witness(false, lastLine);
+				return new Witness(false, lastLine, null, null, property);
 			} else if (secondLastLine.equals("unsat")) {
 				// Trace: pass on output
 				//TODO DEBUG
 				//System.out.println("No violation of property found");
-				return new Witness(true);
+				return new Witness(true, property);
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();

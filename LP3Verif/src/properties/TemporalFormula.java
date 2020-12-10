@@ -3,7 +3,7 @@ package properties;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class EpistemicFormula extends Formula {
+public class TemporalFormula extends Formula {
 
 	// enum
 	public enum FormulaType {
@@ -13,11 +13,11 @@ public class EpistemicFormula extends Formula {
 	// class fields
 	private FormulaType type;
 	private StaticFormula delta;
-	private EpistemicFormula phi;
-	private EpistemicFormula phi2;
+	private TemporalFormula phi;
+	private TemporalFormula phi2;
 	
 	// full constructor
-	public EpistemicFormula(FormulaType type, StaticFormula delta, EpistemicFormula phi, EpistemicFormula phi2) {
+	public TemporalFormula(FormulaType type, StaticFormula delta, TemporalFormula phi, TemporalFormula phi2) {
 		this.type = type;
 		this.delta = delta;
 		this.phi = phi;
@@ -25,17 +25,17 @@ public class EpistemicFormula extends Formula {
 	}
 	
 	// STATIC/CONT constructor
-	public EpistemicFormula(FormulaType type, StaticFormula delta) {
+	public TemporalFormula(FormulaType type, StaticFormula delta) {
 		this(type, delta, null, null);
 	}
 	
 	// NEGATION/GLOBAL constructor
-	public EpistemicFormula(FormulaType type, EpistemicFormula phi) {
+	public TemporalFormula(FormulaType type, TemporalFormula phi) {
 		this(type, null, phi, null);
 	}
 	
 	// DISJUNCTION/CONJUNCTION constructor
-	public EpistemicFormula(FormulaType type, EpistemicFormula phi, EpistemicFormula phi2) {
+	public TemporalFormula(FormulaType type, TemporalFormula phi, TemporalFormula phi2) {
 		this(type, null, phi, phi2);
 	}
 	
@@ -94,23 +94,23 @@ public class EpistemicFormula extends Formula {
 		return F;
 	}
 
-	public EpistemicFormula negate() {
+	public TemporalFormula negate() {
 		// TODO test
 		switch (type) {
 		case CONJUNCTION:
-			return new EpistemicFormula(FormulaType.DISJUNCTION, phi.negate(), phi2.negate());
+			return new TemporalFormula(FormulaType.DISJUNCTION, phi.negate(), phi2.negate());
 		case DISJUNCTION:
-			return new EpistemicFormula(FormulaType.CONJUNCTION, phi.negate(), phi2.negate());
+			return new TemporalFormula(FormulaType.CONJUNCTION, phi.negate(), phi2.negate());
 		case NEGATION:
 			return phi;
 		case STATIC:
-			return new EpistemicFormula(FormulaType.STATIC, delta.negate());
+			return new TemporalFormula(FormulaType.STATIC, delta.negate());
 		case CONT:
-			return new EpistemicFormula(FormulaType.CONTINV, delta);
+			return new TemporalFormula(FormulaType.CONTINV, delta);
 		case GLOBAL:
-			return new EpistemicFormula(FormulaType.FUTURE, phi.negate());
+			return new TemporalFormula(FormulaType.FUTURE, phi.negate());
 		case FUTURE:
-			return new EpistemicFormula(FormulaType.GLOBAL, phi.negate());
+			return new TemporalFormula(FormulaType.GLOBAL, phi.negate());
 		case CONTINV:
 			break;
 		}
@@ -126,19 +126,19 @@ public class EpistemicFormula extends Formula {
 		return delta;
 	}
 	
-	public EpistemicFormula getPhi() {
+	public TemporalFormula getPhi() {
 		return phi;
 	}
 	
-	public EpistemicFormula getPhi2() {
+	public TemporalFormula getPhi2() {
 		return phi2;
 	}
 
-	public void setPhi(EpistemicFormula phi) {
+	public void setPhi(TemporalFormula phi) {
 		this.phi = phi;
 	}
 
-	public void setPhi2(EpistemicFormula phi2) {
+	public void setPhi2(TemporalFormula phi2) {
 		this.phi2 = phi2;
 	}
 
@@ -166,7 +166,7 @@ public class EpistemicFormula extends Formula {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EpistemicFormula other = (EpistemicFormula) obj;
+		TemporalFormula other = (TemporalFormula) obj;
 		if (delta == null) {
 			if (other.delta != null)
 				return false;

@@ -8,13 +8,13 @@ import java.util.Set;
 import processCalculus.ExtendedProcess;
 import processCalculus.State;
 import processCalculus.Trace;
-import properties.EpistemicFormula;
+import properties.TemporalFormula;
 import properties.StaticFormula;
 
 public abstract class Verifier {
 	
 	// class methods
-	public static Witness verify(EpistemicFormula phi, ExtendedProcess A) throws Exception {
+	public static Witness verify(TemporalFormula phi, ExtendedProcess A) throws Exception {
 		// build all traces from P
 		Set<Trace> T = A.buildTraces(new Trace());
 		// collect all static formulas from phi
@@ -33,7 +33,12 @@ public abstract class Verifier {
 		// go through all states and formulas
 		for (State s : lS) {
 			for (StaticFormula f : lF) {
-				B[lS.indexOf(s)][lF.indexOf(f)] = checkStatic(f, s);
+				Witness tmp = checkStatic(f, s);
+				if (!tmp.getBool()) {
+					String shortest = tmp.shortestTrace(T);
+					tmp.setTrace(shortest);
+				}
+				B[lS.indexOf(s)][lF.indexOf(f)] = tmp;
 			}
 		}
 		// check the phi for all traces
@@ -52,7 +57,7 @@ public abstract class Verifier {
 		return smt.verify(s, delta);
 	}
 	
-	private static Witness checkTemporal(Set<Trace> T, Witness[][] B, EpistemicFormula phi, Trace t0, int i, List<State> lS, List<StaticFormula> lF) {
+	private static Witness checkTemporal(Set<Trace> T, Witness[][] B, TemporalFormula phi, Trace t0, int i, List<State> lS, List<StaticFormula> lF) {
 		//TODO test
 		Witness tmp1 = new Witness(false);
 		Witness tmp2 = new Witness(false);

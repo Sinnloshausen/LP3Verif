@@ -121,7 +121,9 @@ public class SmtHandler {
 
 		SolverHandler solv = new SolverHandler();
 		// return true or witness otherwise
-		return solv.runSolver(buffer, property);
+		Witness tmp = solv.runSolver(buffer, property);
+		tmp.setState(sigma);
+		return tmp;
 	}
 
 	private String makeQRY(int i) {
@@ -761,42 +763,42 @@ public class SmtHandler {
 //		addLineSmt(Command.ASSERT, "MBB508", null, "(= (MBB (insert 2 3 4 5 6 7 8 (singleton 9))) (insert 1 2 3 4 5 6 7 8 (singleton 9)))", null, null);
 //		addLineSmt(Command.ASSERT, "MBB509", null, "(= (MBB (insert 1 2 3 4 5 6 7 8 (singleton 9))) (insert 1 2 3 4 5 6 7 8 (singleton 9)))", null, null); // nine elements
 		// move explicitly
-		addLineSmt(Command.ASSERT, "MV1", null, "(= (move (singleton 1)) (insert 4 2 (singleton 1)))", null, null); // one element
-		addLineSmt(Command.ASSERT, "MV2", null, "(= (move (singleton 2)) (insert 5 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV3", null, "(= (move (singleton 3)) (insert 6 3 (singleton 2)))", null, null);
-		addLineSmt(Command.ASSERT, "MV4", null, "(= (move (singleton 4)) (insert 7 5 4 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV5", null, "(= (move (singleton 5)) (insert 8 6 5 4 (singleton 2)))", null, null);
-		addLineSmt(Command.ASSERT, "MV6", null, "(= (move (singleton 6)) (insert 9 6 5 (singleton 3)))", null, null);
-		addLineSmt(Command.ASSERT, "MV7", null, "(= (move (singleton 7)) (insert 8 7 (singleton 4)))", null, null);
-		addLineSmt(Command.ASSERT, "MV8", null, "(= (move (singleton 8)) (insert 9 8 7 (singleton 5)))", null, null);
-		addLineSmt(Command.ASSERT, "MV9", null, "(= (move (singleton 9)) (insert 9 8 (singleton 6)))", null, null);
-		addLineSmt(Command.ASSERT, "MV10", null, "(= (move (insert 2 (singleton 1))) (insert 5 4 3 2 (singleton 1)))", null, null); // leading 1
-		addLineSmt(Command.ASSERT, "MV11", null, "(= (move (insert 4 (singleton 1))) (insert 7 5 4 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV1", null, "(= (move (singleton 1)) (insert 5 4 2 (singleton 1)))", null, null); // one element
+		addLineSmt(Command.ASSERT, "MV2", null, "(= (move (singleton 2)) (insert 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV3", null, "(= (move (singleton 3)) (insert 6 5 3 (singleton 2)))", null, null);
+		addLineSmt(Command.ASSERT, "MV4", null, "(= (move (singleton 4)) (insert 8 7 5 4 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV5", null, "(= (move (singleton 5)) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV6", null, "(= (move (singleton 6)) (insert 9 8 6 5 3 (singleton 2)))", null, null);
+		addLineSmt(Command.ASSERT, "MV7", null, "(= (move (singleton 7)) (insert 8 7 5 (singleton 4)))", null, null);
+		addLineSmt(Command.ASSERT, "MV8", null, "(= (move (singleton 8)) (insert 9 8 7 6 5 (singleton 4)))", null, null);
+		addLineSmt(Command.ASSERT, "MV9", null, "(= (move (singleton 9)) (insert 9 8 6 (singleton 5)))", null, null);
+		addLineSmt(Command.ASSERT, "MV10", null, "(= (move (insert 2 (singleton 1))) (insert 6 5 4 3 2 (singleton 1)))", null, null); // leading 1
+		addLineSmt(Command.ASSERT, "MV11", null, "(= (move (insert 4 (singleton 1))) (insert 8 7 5 4 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV12", null, "(= (move (insert 3 2 (singleton 1))) (insert 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV13", null, "(= (move (insert 7 4 (singleton 1))) (insert 8 7 5 4 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV14", null, "(= (move (insert 5 4 2 (singleton 1))) (insert 8 7 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV14", null, "(= (move (insert 5 4 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV15", null, "(= (move (insert 6 5 4 3 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV16", null, "(= (move (insert 8 7 5 4 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV17", null, "(= (move (insert 9 8 7 6 5 4 3 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV18", null, "(= (move (insert 3 (singleton 2))) (insert 6 5 3 2 (singleton 1)))", null, null); // leading 2
-		addLineSmt(Command.ASSERT, "MV19", null, "(= (move (insert 5 (singleton 2))) (insert 8 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV18", null, "(= (move (insert 3 (singleton 2))) (insert 6 5 4 3 2 (singleton 1)))", null, null); // leading 2
+		addLineSmt(Command.ASSERT, "MV19", null, "(= (move (insert 5 (singleton 2))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV19a", null, "(= (move (insert 8 5 (singleton 2))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV20", null, "(= (move (insert 6 5 3 (singleton 2))) (insert 9 8 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV20", null, "(= (move (insert 6 5 3 (singleton 2))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV21", null, "(= (move (insert 9 8 6 5 3 (singleton 2))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV22", null, "(= (move (insert 6 (singleton 3))) (insert 9 6 5 3 (singleton 2)))", null, null); // leading 3
+		addLineSmt(Command.ASSERT, "MV22", null, "(= (move (insert 6 (singleton 3))) (insert 9 8 6 5 3 (singleton 2)))", null, null); // leading 3
 		addLineSmt(Command.ASSERT, "MV23", null, "(= (move (insert 9 6 (singleton 3))) (insert 9 8 6 5 3 (singleton 2)))", null, null);
-		addLineSmt(Command.ASSERT, "MV24", null, "(= (move (insert 5 (singleton 4))) (insert 8 7 6 5 4 2 (singleton 1)))", null, null); // leading 4
-		addLineSmt(Command.ASSERT, "MV24a", null, "(= (move (insert 7 (singleton 4))) (insert 8 7 5 4 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV24", null, "(= (move (insert 5 (singleton 4))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null); // leading 4
+		addLineSmt(Command.ASSERT, "MV24a", null, "(= (move (insert 7 (singleton 4))) (insert 8 7 5 4 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV25", null, "(= (move (insert 6 5 (singleton 4))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV26", null, "(= (move (insert 8 7 5 (singleton 4))) (insert 9 8 7 6 5 4 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV26", null, "(= (move (insert 8 7 5 (singleton 4))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
 		addLineSmt(Command.ASSERT, "MV27", null, "(= (move (insert 9 8 7 6 5 (singleton 4))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
-		addLineSmt(Command.ASSERT, "MV28", null, "(= (move (insert 6 (singleton 5))) (insert 9 8 6 5 4 3 (singleton 2)))", null, null); // leading 5
-		addLineSmt(Command.ASSERT, "MV29", null, "(= (move (insert 8 (singleton 5))) (insert 9 8 7 6 5 4 (singleton 2)))", null, null);
-		addLineSmt(Command.ASSERT, "MV30", null, "(= (move (insert 9 8 6 (singleton 5))) (insert 9 8 7 6 5 4 3 (singleton 2)))", null, null);
-		addLineSmt(Command.ASSERT, "MV31", null, "(= (move (insert 9 (singleton 6))) (insert 9 8 6 5 (singleton 3)))", null, null); // leading 6
-		addLineSmt(Command.ASSERT, "MV32", null, "(= (move (insert 8 (singleton 7))) (insert 9 8 7 5 (singleton 4)))", null, null); // leading 7
+		addLineSmt(Command.ASSERT, "MV28", null, "(= (move (insert 6 (singleton 5))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null); // leading 5
+		addLineSmt(Command.ASSERT, "MV29", null, "(= (move (insert 8 (singleton 5))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV30", null, "(= (move (insert 9 8 6 (singleton 5))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MV31", null, "(= (move (insert 9 (singleton 6))) (insert 9 8 6 5 3 (singleton 2)))", null, null); // leading 6
+		addLineSmt(Command.ASSERT, "MV32", null, "(= (move (insert 8 (singleton 7))) (insert 9 8 7 6 5 (singleton 4)))", null, null); // leading 7
 		addLineSmt(Command.ASSERT, "MV33", null, "(= (move (insert 9 8 (singleton 7))) (insert 9 8 7 6 5 (singleton 4)))", null, null);
-		addLineSmt(Command.ASSERT, "MV34", null, "(= (move (insert 9 (singleton 8))) (insert 9 8 7 6 (singleton 5)))", null, null); // leading 8
+		addLineSmt(Command.ASSERT, "MV34", null, "(= (move (insert 9 (singleton 8))) (insert 9 8 7 6 5 (singleton 4)))", null, null); // leading 8
 		addLineSmt(Command.ASSERT, "MV35", null, "(= (move (insert 9 8 7 6 5 4 3 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null); // whole region
 		// for sets with more elements
 		addLineSmt(Command.ASSERT, "MBBall", null, "(forall ((r Region)) (>= (card (MBB r)) (card r))) ", null, null); // MBB greater equal to region
@@ -899,7 +901,7 @@ public class SmtHandler {
 			addBuffer("( pop 1 )" + System.lineSeparator());
 			break;
 		case VALUE:
-			addBuffer("( get-value (pid loc serv t loc_1 G1 R1 S1 F1) )" + System.lineSeparator());
+			addBuffer("( get-value (pid loc serv t loc_1 G1 R1 S1 F1 G2 R2 S2 F2) )" + System.lineSeparator());
 		}
 	}
 
