@@ -44,7 +44,9 @@ public class TemporalFormula extends Formula {
 		Set<StaticFormula> F = new LinkedHashSet<StaticFormula>();
 		switch (type) {
 		case CONT:
-			// fall through
+			F.add(delta);
+			F.add(delta.negate());
+			break;
 		case CONTINV:
 			// fall through
 		case STATIC:
@@ -115,6 +117,54 @@ public class TemporalFormula extends Formula {
 			break;
 		}
 		return null;
+	}
+
+	public TemporalFormula normalize() {
+		// TODO test
+		// this method returns an equivalent formula in normal form
+		TemporalFormula norm = this;
+		switch(this.type) {
+		case FUTURE:
+			// fall through
+		case GLOBAL:
+			return new TemporalFormula(this.getType(), phi.normalize());
+		case NEGATION:
+			//TODO negation nach innen
+			if (this.getPhi().getType().equals(FormulaType.STATIC)) {
+				StaticFormula a;
+				StaticFormula b;
+				TemporalFormula tmp1;
+				TemporalFormula tmp2;
+				switch(this.getPhi().getDelta().getType()) {
+				case CONJUNCTION:
+					a = this.getPhi().getDelta().getDelta().negate();
+					b = this.getPhi().getDelta().getDelta2().negate();
+					tmp1 = new TemporalFormula(FormulaType.STATIC, a);
+					tmp2 = new TemporalFormula(FormulaType.STATIC, b);
+					return new TemporalFormula(FormulaType.DISJUNCTION, tmp1, tmp2);
+				case DISJUNCTION:
+					a = this.getPhi().getDelta().getDelta().negate();
+					b = this.getPhi().getDelta().getDelta2().negate();
+					tmp1 = new TemporalFormula(FormulaType.STATIC, a);
+					tmp2 = new TemporalFormula(FormulaType.STATIC, b);
+					return new TemporalFormula(FormulaType.CONJUNCTION, tmp1, tmp2);
+				case KID:
+					// fall through
+				case KLOC:
+					// fall through
+				case KSERV:
+					// fall through
+				case KT:
+					return new TemporalFormula(FormulaType.STATIC, this.getPhi().getDelta().negate());
+				default:
+					break;
+				}
+			}
+			return new TemporalFormula(this.getType(), phi.normalize());
+		default:
+			break;
+		}
+		return norm;
 	}
 	
 	// getter setter

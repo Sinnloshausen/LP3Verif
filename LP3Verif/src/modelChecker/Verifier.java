@@ -18,8 +18,10 @@ public abstract class Verifier {
 		// build all traces from P
 		Set<Trace> T = A.buildTraces(new Trace());
 		// collect all static formulas from phi
-		Set<StaticFormula> F = phi.getStatic();
-		F.addAll(phi.getNegatedStatic());
+		//TODO normalize the formula
+		TemporalFormula phi_norm = phi.normalize();
+		Set<StaticFormula> F = phi_norm.getStatic();
+		// F.addAll(phi_norm.getNegatedStatic());
 		// collect all states
 		Set<State> S = new LinkedHashSet<State>();
 		for (Trace t : T) {
@@ -43,7 +45,7 @@ public abstract class Verifier {
 		}
 		// check the phi for all traces
 		for (Trace t : T) {
-			Witness tmp = checkTemporal(T, B, phi, t, 0, lS, lF);
+			Witness tmp = checkTemporal(T, B, phi_norm, t, 0, lS, lF);
 			if (!tmp.getBool()) {
 				return tmp;
 			}

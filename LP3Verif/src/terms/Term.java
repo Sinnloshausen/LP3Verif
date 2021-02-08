@@ -136,7 +136,8 @@ public class Term {
 		case RESNAME:
 			switch (rn.getRn()) {
 			case PID:
-				// fall through
+				smt += "(singleton " + this + ")";
+				break;
 			case LOC:
 				// fall through
 			case SERV:
