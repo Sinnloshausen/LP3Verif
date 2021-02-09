@@ -93,9 +93,10 @@ public class Test {
 
 		// verification
 		Witness res;
+		Verifier verif = new Verifier();
 		for (TemporalFormula phi : properties) {
 			try {
-				res = Verifier.verify(phi, proc);
+				res = verif.verify(phi, proc);
 				//DEBUG
 				if (res.getBool()) {
 					System.out.println("The protocol " + procName + " satisfies the property " + phi);

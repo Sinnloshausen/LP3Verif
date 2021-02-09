@@ -1,24 +1,35 @@
 package modelChecker;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import processCalculus.ExtendedProcess;
 import processCalculus.State;
 import processCalculus.Trace;
 import properties.TemporalFormula;
+import utils.StateProp;
 import properties.StaticFormula;
 
-public abstract class Verifier {
+public class Verifier {
+	
+	// class fields
+	private Map<StateProp, Witness> cache;
+	
+	// Constructor
+	public Verifier() {
+		cache = new LinkedHashMap<StateProp, Witness>();
+	}
 	
 	// class methods
-	public static Witness verify(TemporalFormula phi, ExtendedProcess A) throws Exception {
+	public Witness verify(TemporalFormula phi, ExtendedProcess A) throws Exception {
 		// build all traces from P
 		Set<Trace> T = A.buildTraces(new Trace());
 		// collect all static formulas from phi
-		//TODO normalize the formula
+		// normalize the formula
 		TemporalFormula phi_norm = phi.normalize();
 		Set<StaticFormula> F = phi_norm.getStatic();
 		// F.addAll(phi_norm.getNegatedStatic());
@@ -35,10 +46,19 @@ public abstract class Verifier {
 		// go through all states and formulas
 		for (State s : lS) {
 			for (StaticFormula f : lF) {
-				Witness tmp = checkStatic(f, s);
-				if (!tmp.getBool()) {
-					String shortest = tmp.shortestTrace(T);
-					tmp.setTrace(shortest);
+				Witness tmp;
+				// check if static check is already cached
+				StateProp pair = new StateProp(s,f);
+				if (!cache.containsKey(pair)) {
+					tmp = checkStatic(f, s);
+					if (!tmp.getBool()) {
+						String shortest = tmp.shortestTrace(T);
+						tmp.setTrace(shortest);
+					}
+					// put result in cache
+					cache.put(pair, tmp);
+				} else {
+					tmp = cache.get(pair);
 				}
 				B[lS.indexOf(s)][lF.indexOf(f)] = tmp;
 			}
