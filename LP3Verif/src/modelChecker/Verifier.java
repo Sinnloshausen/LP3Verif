@@ -18,31 +18,39 @@ public class Verifier {
 	
 	// class fields
 	private Map<StateProp, Witness> cache;
+	private Set<Trace> T;
+	private Set<State> S;
 	
 	// Constructor
-	public Verifier() {
+	public Verifier(ExtendedProcess A) {
 		cache = new LinkedHashMap<StateProp, Witness>();
-	}
-	
-	// class methods
-	public Witness verify(TemporalFormula phi, ExtendedProcess A) throws Exception {
-		// build all traces from P
-		Set<Trace> T = A.buildTraces(new Trace());
-		// collect all static formulas from phi
-		// normalize the formula
-		TemporalFormula phi_norm = phi.normalize();
-		Set<StaticFormula> F = phi_norm.getStatic();
-		// F.addAll(phi_norm.getNegatedStatic());
+		// build all traces from Process A
+		T = A.buildTraces(new Trace());
 		// collect all states
-		Set<State> S = new LinkedHashSet<State>();
+		S = new LinkedHashSet<State>();
 		for (Trace t : T) {
 			S.addAll(t.getSigmas());
 		}
+	}
+	
+	// class methods
+	public Witness verify(TemporalFormula phi) throws Exception {
+		// measure time
+		long startTime = System.nanoTime();
+		// normalize the formula
+		TemporalFormula phi_norm = phi.normalize();
+		// collect all static formulas from phi
+		Set<StaticFormula> F = phi_norm.getStatic();
+		// F.addAll(phi_norm.getNegatedStatic());
+		// measure time
+		long afterGetStaticTime = System.nanoTime();
 		// create array for static properties
 		Witness[][] B = new Witness[S.size()][F.size()];
 		// temporary Lists
 		List<State> lS = new ArrayList<State>(S);
 		List<StaticFormula> lF = new ArrayList<StaticFormula>(F);
+		// measure time
+		long beforeStaticTime = System.nanoTime();
 		// go through all states and formulas
 		for (State s : lS) {
 			for (StaticFormula f : lF) {
@@ -63,13 +71,27 @@ public class Verifier {
 				B[lS.indexOf(s)][lF.indexOf(f)] = tmp;
 			}
 		}
+		// measure time
+		long afterStaticTime = System.nanoTime();
 		// check the phi for all traces
+		long stopTime;
 		for (Trace t : T) {
 			Witness tmp = checkTemporal(T, B, phi_norm, t, 0, lS, lF);
 			if (!tmp.getBool()) {
+				stopTime = System.nanoTime();
+				System.out.println("Overall: " + (stopTime - startTime));
+				System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
+				System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
+				System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
 				return tmp;
 			}
 		}
+		// measure time
+		stopTime = System.nanoTime();
+		System.out.println("Overall: " + (stopTime - startTime));
+		System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
+		System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
+		System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
 		return new Witness(true);
 	}
 
