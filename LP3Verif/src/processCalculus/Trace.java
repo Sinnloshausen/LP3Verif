@@ -34,6 +34,14 @@ public class Trace {
 			// only add states with new query state
 			if (!sigmas.contains(A.getSigma())) {
 				sigmas.add(A.getSigma());
+				if (A.getSigma().getIndex() > 1) {
+					// more than one query
+					State last = new State(A.getSigma(), A.getSigma().getLast());
+					if (!sigmas.contains(last)) {
+						// also add the state with only the last query
+						sigmas.add(last);
+					}
+				}
 			}
 		}
 		return sigmas;

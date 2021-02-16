@@ -193,12 +193,12 @@ public abstract class Rules {
 			break;
 		case QURY:
 			if (A.getType() == ProcessType.PLAINSTATE && A.getP().getType() == PlainProcess.ProcessType.QUERY) {
-				p = new ExtendedProcess(ProcessType.PLAINSTATE, A.getP().getP(), new State(A.getSigma(), A.getP().getQuery()));
+				p = new ExtendedProcess(ProcessType.PLAINSTATE, A.getP().getP(), new State(A.getSigma(), A.getP().getQuery(), true));
 			}
 			break;
 		case KQURY:
 			if (A.getType() == ProcessType.PLAINSTATE && A.getP().getType() == PlainProcess.ProcessType.KQUERY) {
-				p = new ExtendedProcess(ProcessType.PLAINSTATE, A.getP().getP(), new State(A.getSigma(), A.getP().getMulti()));
+				p = new ExtendedProcess(ProcessType.PLAINSTATE, A.getP().getP(), new State(A.getSigma(), A.getP().getMulti(), true));
 			}
 			break;
 		}

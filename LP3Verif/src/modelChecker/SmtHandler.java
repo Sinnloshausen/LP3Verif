@@ -818,7 +818,7 @@ public class SmtHandler {
 		addLineSmt(Command.ASSERT, "RED9", null, "(= (redund 9) (insert 9 5 (singleton 1)))", null, null);
 		// noise
 		addLineSmt(Command.ASSERT, "NOISEall", null, "(forall ((l Location)) (= (noise l) (move (singleton l)))) ", null, null);
-		addLineSmt(Command.ASSERT, "SWAPall", null, "(forall ((g Group)) (= (swap g) g)) ", null, null);
+		addLineSmt(Command.ASSERT, "SWAPall", null, "(forall ((g Group)) (= (swap g) (insert 3 2 (singleton 1)))) ", null, null);
 	}
 
 	/**

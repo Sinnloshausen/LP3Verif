@@ -15,12 +15,12 @@ import utils.StateProp;
 import properties.StaticFormula;
 
 public class Verifier {
-	
+
 	// class fields
 	private Map<StateProp, Witness> cache;
 	private Set<Trace> T;
 	private Set<State> S;
-	
+
 	// Constructor
 	public Verifier(ExtendedProcess A) {
 		cache = new LinkedHashMap<StateProp, Witness>();
@@ -32,7 +32,7 @@ public class Verifier {
 			S.addAll(t.getSigmas());
 		}
 	}
-	
+
 	// class methods
 	public Witness verify(TemporalFormula phi) throws Exception {
 		// measure time
@@ -100,7 +100,7 @@ public class Verifier {
 		SmtHandler smt = new SmtHandler();
 		return smt.verify(s, delta);
 	}
-	
+
 	private static Witness checkTemporal(Set<Trace> T, Witness[][] B, TemporalFormula phi, Trace t0, int i, List<State> lS, List<StaticFormula> lF) {
 		//TODO test
 		Witness tmp1 = new Witness(false);
@@ -170,24 +170,32 @@ public class Verifier {
 			return tmp1;
 		case CONTINV:
 			// negation-structure formula not for normal use
-			tmp1 = B[lS.indexOf(t0.getState(i).getSigma())][lF.indexOf(phi.getDelta().negate())];
-			if (tmp1.getBool()) {
-				// property does not hold locally
+			tmp1 = new Witness(true);
+			if (t0.getState(i).getSigma().getLast() == null) {
 				return tmp1;
 			}
-			q = t0.getState(i).getSigma().getQueries().size();
+			State tmp = new State(t0.getState(i).getSigma(), t0.getState(i).getSigma().getLast());
+			// check the state with only the most recent query
+			Witness tmp3 = B[lS.indexOf(tmp)][lF.indexOf(phi.getDelta().negate())];
+			if (tmp3.getBool()) {
+				// property does not hold locally
+				return tmp3;
+			}
+			q = t0.getState(i).getSigma().getIndex();
 			tmp2 = new Witness(false);
 			for (int j = 0; j < i; j++) {
-				if (t0.getState(j).getSigma().getQueries().size() < q) {
-					tmp2 = B[lS.indexOf(t0.getState(j).getSigma())][lF.indexOf(phi.getDelta().negate())];
-					if (!tmp2.getBool()) {
-						// property holds for local state and some prior state j
-						return tmp2;
-					}
+				// consider only states with an index lesser than q
+				if (t0.getState(j).getSigma().getIndex() >= q) {
+					return tmp1;
+				}
+				tmp2 = B[lS.indexOf(t0.getState(j).getSigma())][lF.indexOf(phi.getDelta().negate())];
+				if (!tmp2.getBool()) {
+					// property holds for local state and some prior state j
+					return tmp2;
 				}
 			}
 			// property did not hold in the past
-			return tmp2;
+			return tmp1;
 		}
 		return tmp1;
 	}

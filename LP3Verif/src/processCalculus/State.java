@@ -1,5 +1,6 @@
 package processCalculus;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,47 +17,56 @@ public class State {
 	private Set<Query> queries;
 	private Set<Equation> equations;
 	private Set<Predicate> propositions;
+	private int index;
+	private Query last;
 	
 	// full constructor
-	public State(Set<Query> queries, Set<Equation> equations, Set<Predicate> propositions) {
+	public State(Set<Query> queries, Set<Equation> equations, Set<Predicate> propositions, int index, Query last) {
 		this.queries = queries;
 		this.equations = equations;
 		this.propositions = propositions;
+		this.index = index;
+		this.last = last;
 	}
 	
 	// copy constructor
 	public State(State old) {
-		this(new LinkedHashSet<>(old.getQueries()), new LinkedHashSet<>(old.getEquations()), new LinkedHashSet<>(old.getProps()));
+		this(new LinkedHashSet<>(old.getQueries()), new LinkedHashSet<>(old.getEquations()), new LinkedHashSet<>(old.getProps()), old.getIndex(), old.getLast());
+	}
+	
+	// copy constructor with only one query
+	public State(State old, Query query) {
+		this(new LinkedHashSet<>(Arrays.asList(query)), new LinkedHashSet<>(old.getEquations()), new LinkedHashSet<>(old.getProps()), old.getIndex(), query);
 	}
 	
 	// modified copy constructor prop
 	public State(State old, Predicate prop) {
-		this(new LinkedHashSet<>(old.getQueries()), new LinkedHashSet<>(old.getEquations()), Sets.addElem(old.getProps(), prop));
+		this(new LinkedHashSet<>(old.getQueries()), new LinkedHashSet<>(old.getEquations()), Sets.addElem(old.getProps(), prop), old.getIndex(), old.getLast());
 	}
 	
 	// modified copy constructor equation
 	public State(State old, Equation e) {
-		this(new LinkedHashSet<>(old.getQueries()), Sets.addElem(old.getEquations(), e), new LinkedHashSet<>(old.getProps()));
+		this(new LinkedHashSet<>(old.getQueries()), Sets.addElem(old.getEquations(), e), new LinkedHashSet<>(old.getProps()), old.getIndex(), old.getLast());
 	}
 
 	// modified copy constructor update equation 
 	public State(State old, Equation e, Name n) {
-		this(new LinkedHashSet<>(old.getQueries()), replEqu(old.getEquations(), e, n), new LinkedHashSet<>(old.getProps()));
+		this(new LinkedHashSet<>(old.getQueries()), replEqu(old.getEquations(), e, n), new LinkedHashSet<>(old.getProps()), old.getIndex(), old.getLast());
 	}
 
 	// modified copy constructor query
-	public State(State old, Query query) {
-		this(Sets.addElem(old.getQueries(), query.update(old.getEquations(), old.getProps())), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>());
+	public State(State old, Query query, boolean increment) {
+		this(Sets.addElem(old.getQueries(), query.update(old.getEquations(), old.getProps())), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>(), increment ? old.getIndex()+1 : old.getIndex(), query.update(old.getEquations(), old.getProps()));
 	}
 
 	// modified copy constructor multi query
-	public State(State old, MultiQuery multi) {
-		this(Sets.union(old.getQueries(), multi.update(old.getEquations(), old.getProps())), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>());
+	public State(State old, MultiQuery multi, boolean increment) {
+		this(Sets.union(old.getQueries(), multi.update(old.getEquations(), old.getProps())), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>(), increment ? old.getIndex()+1 : old.getIndex(), old.getLast());
 	}
 	
 	// empty constructor
 	public State() {
-		this(new LinkedHashSet<Query>(), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>());
+		this(new LinkedHashSet<Query>(), new LinkedHashSet<Equation>(), new LinkedHashSet<Predicate>(), 0, null);
 	}
 
 	private static Set<Equation> replEqu(Set<Equation> E, Equation eq, Name n) {
@@ -126,9 +136,20 @@ public class State {
 	public Set<Query> getQueries() {
 		return queries;
 	}
+	
+	public void setQueries(Set<Query> queries) {
+		this.queries = queries;
+	}
 
 	public Set<Equation> getEquations() {
 		return equations;
 	}
 
+	public int getIndex() {
+		return index;
+	}
+	
+	public Query getLast() {
+		return last;
+	}
 }

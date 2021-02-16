@@ -129,6 +129,10 @@ public class Parser {
 					// end of construct
 					finished.add(current);
 					procs.add(current);
+					if (finished.containsAll(procs)) {
+						// process end
+						process = parseProc(finished.get(0));
+					}
 					continue;
 				}
 				if (line.substring(0, 4).equals("else")) {
