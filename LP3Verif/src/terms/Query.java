@@ -39,17 +39,17 @@ public class Query {
 		if (props.size() == 1) {
 			for (Predicate p : props) {
 				switch (p.getType()) {
-				case DUMMIES:
-					break;
 				case K_USERS:
 					break;
-				case L_DIVERS:
+				case DUMMIES:
+					// fall through
+				case L_DIVERSE:
 					statement = "(> (card R" + i + ") 1)";
 					break;
 				case RELATION:
 					statement = p.makeSMT(i);
 					break;
-				case S_DIVERS:
+				case S_DIVERSE:
 					statement = "(> (card S" + i + ") 1)";
 					break;
 				}
@@ -62,13 +62,13 @@ public class Query {
 					break;
 				case K_USERS:
 					break;
-				case L_DIVERS:
+				case L_DIVERSE:
 					statement += " (> (card R" + i + ") 1)";
 					break;
 				case RELATION:
 					statement = p.makeSMT(i);
 					break;
-				case S_DIVERS:
+				case S_DIVERSE:
 					statement += " (> (card S" + i + ") 1)";
 					break;
 				}

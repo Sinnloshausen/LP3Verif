@@ -130,7 +130,7 @@ public class SmtHandler {
 		// TODO generate an impossible query, i.e., divers group. region. service, frame
 		String tmp = " (insert 1 2 (singleton 3)))";
 		String tmp_long = " (insert 1 2 3 4 5 6 7 8 (singleton 9)))";
-		return "(and (= G" + i + tmp + " (= R" + i + tmp_long + " (= S" + i + tmp + " (= F" + i + tmp + ")";
+		return "(and (= G" + i + tmp_long + " (= R" + i + tmp_long + " (= S" + i + tmp + " (= F" + i + tmp + ")";
 	}
 
 	private String makeSMT(StaticFormula property) {
@@ -190,6 +190,7 @@ public class SmtHandler {
 		addLineSmt(Command.DECLARE, "hash", SmtType.FUN, null, VariableType.GROUP, VariableType.GROUP);
 		addLineSmt(Command.DECLARE, "rand", SmtType.FUN, null, VariableType.GROUP, VariableType.GROUP);
 		addLineSmt(Command.DECLARE, "noise", SmtType.FUN, null, VariableType.LOC, VariableType.REGION);
+		addLineSmt(Command.DECLARE, "noiset", SmtType.FUN, null, VariableType.TIME, VariableType.FRAME);
 		addLineSmt(Command.DECLARE, "redund", SmtType.FUN, null, VariableType.LOC, VariableType.REGION);
 		addLineSmt(Command.DECLARE, "swap", SmtType.FUN, null, VariableType.GROUP, VariableType.GROUP);
 	}
@@ -224,6 +225,7 @@ public class SmtHandler {
 		addLineSmt(Command.DECLARE, "loc_1", SmtType.FUN, null, VariableType.NULL, VariableType.LOC);
 		addLineSmt(Command.DECLARE, "loc2", SmtType.FUN, null, VariableType.NULL, VariableType.LOC);
 		addLineSmt(Command.DECLARE, "loc_12", SmtType.FUN, null, VariableType.NULL, VariableType.LOC);
+		addLineSmt(Command.DECLARE, "pid_1", SmtType.FUN, null, VariableType.NULL, VariableType.ID);
 	}
 
 	private void defineVars() {
@@ -234,6 +236,11 @@ public class SmtHandler {
 		addLineSmt(Command.ASSERT, "LOC12", null, "(and (> loc_12 0) (< loc_12 10))", null, null);
 		addLineSmt(Command.ASSERT, "LOCS", null, "(= locs (insert loc_1 (singleton loc)))", null, null);
 		addLineSmt(Command.ASSERT, "LOCS2", null, "(= locs2 (insert loc_12 (singleton loc2)))", null, null);
+		addLineSmt(Command.ASSERT, "PIDS", null, "(= pids (insert pid_1 (singleton pid)))", null, null);
+		addLineSmt(Command.ASSERT, "SERV", null, "(and (> serv 0) (< serv 10))", null, null);
+		addLineSmt(Command.ASSERT, "PID1", null, "(and (> pid 0) (< pid 10))", null, null);
+		addLineSmt(Command.ASSERT, "PID2", null, "(and (> pid_1 0) (< pid_1 10))", null, null);
+		addLineSmt(Command.ASSERT, "PIDUNIQ", null, "(not (= pid pid_1))", null, null);
 		addLineSmt(Command.ASSERT, "Gr1", null, "(> (card G1) 0)", null, null);
 		addLineSmt(Command.ASSERT, "Re1", null, "(> (card R1) 0)", null, null);
 		addLineSmt(Command.ASSERT, "Se1", null, "(> (card S1) 0)", null, null);
@@ -800,11 +807,17 @@ public class SmtHandler {
 		addLineSmt(Command.ASSERT, "MV33", null, "(= (move (insert 9 8 (singleton 7))) (insert 9 8 7 6 5 (singleton 4)))", null, null);
 		addLineSmt(Command.ASSERT, "MV34", null, "(= (move (insert 9 (singleton 8))) (insert 9 8 7 6 5 (singleton 4)))", null, null); // leading 8
 		addLineSmt(Command.ASSERT, "MV35", null, "(= (move (insert 9 8 7 6 5 4 3 2 (singleton 1))) (insert 9 8 7 6 5 4 3 2 (singleton 1)))", null, null); // whole region
+		// move for disconnected regions
+		addLineSmt(Command.ASSERT, "MVDIS1", null, "(= (move (insert 9 5 (singleton 1))) (insert 9 8 6 5 4 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MVDIS2", null, "(= (move (insert 8 (singleton 2))) (insert 9 8 7 5 3 2 (singleton 1)))", null, null);
+		addLineSmt(Command.ASSERT, "MVDIS3", null, "(= (move (insert 7 (singleton 3))) (insert 8 7 6 4 3 (singleton 2)))", null, null);
+		addLineSmt(Command.ASSERT, "MVDIS4", null, "(= (move (insert 6 (singleton 4))) (insert 9 6 5 4 3 (singleton 1)))", null, null);
+		
 		// for sets with more elements
 		addLineSmt(Command.ASSERT, "MBBall", null, "(forall ((r Region)) (>= (card (MBB r)) (card r))) ", null, null); // MBB greater equal to region
 		addLineSmt(Command.ASSERT, "MVall", null, "(forall ((r Region)) (>= (card (move r)) (card r))) ", null, null); // move greater equal to region
 		// hash and rand
-		addLineSmt(Command.ASSERT, "HASHall", null, "(forall ((g Group)) (= (hash g) (insert 3 2 (singleton 1)))) ", null, null);
+		addLineSmt(Command.ASSERT, "HASHall", null, "(forall ((g Group)) (>= (card (hash g)) 2)) ", null, null);
 		addLineSmt(Command.ASSERT, "RANDall", null, "(forall ((g Group)) (= (rand g) (insert 3 2 (singleton 1)))) ", null, null);
 		// redund
 		addLineSmt(Command.ASSERT, "RED1", null, "(= (redund 1) (insert 9 5 (singleton 1)))", null, null);
@@ -818,6 +831,7 @@ public class SmtHandler {
 		addLineSmt(Command.ASSERT, "RED9", null, "(= (redund 9) (insert 9 5 (singleton 1)))", null, null);
 		// noise
 		addLineSmt(Command.ASSERT, "NOISEall", null, "(forall ((l Location)) (= (noise l) (move (singleton l)))) ", null, null);
+		addLineSmt(Command.ASSERT, "NOISETall", null, "(forall ((t Time)) (= (noiset t) (insert 3 2 1 (singleton t)))) ", null, null);
 		addLineSmt(Command.ASSERT, "SWAPall", null, "(forall ((g Group)) (= (swap g) (insert 3 2 (singleton 1)))) ", null, null);
 	}
 
@@ -890,7 +904,7 @@ public class SmtHandler {
 			break;
 		case OPTION:
 			// TODO different options
-			addBuffer("( set-logic ALL )" + System.lineSeparator());
+			addBuffer("( set-logic UFLIAFS )" + System.lineSeparator());
 			addBuffer("( set-option :produce-models true )" + System.lineSeparator());
 			addBuffer("( set-option :produce-unsat-cores true )" + System.lineSeparator());
 			break;

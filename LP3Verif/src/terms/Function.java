@@ -24,7 +24,7 @@ public class Function {
 	}
 
 	public enum IntFunction {
-		HASH, RAND, SWAP;
+		HASH, RAND, SWAP, NOISET;
 
 		@Override
 		public String toString() {

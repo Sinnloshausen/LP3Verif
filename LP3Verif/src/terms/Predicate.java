@@ -4,7 +4,7 @@ public class Predicate {
 	
 	// enum
 	public enum PredicateType {
-		K_USERS, DUMMIES, L_DIVERS, S_DIVERS, RELATION;
+		K_USERS, DUMMIES, L_DIVERSE, S_DIVERSE, RELATION;
 		
 		@Override
 		public String toString() {
@@ -48,7 +48,7 @@ public class Predicate {
 			//TODO irgendwas zu asserten??
 			ret = "true";
 			break;
-		case L_DIVERS:
+		case L_DIVERSE:
 			// region divers
 			ret = "(> (card R) 1)";
 			break;
@@ -56,7 +56,7 @@ public class Predicate {
 			//TODO irgendwas zu asserten??
 			ret = r.makeSMT(i);
 			break;
-		case S_DIVERS:
+		case S_DIVERSE:
 			// service divers
 			ret = "(> (card S) 1)";
 			break;
@@ -114,9 +114,9 @@ public class Predicate {
 			// fall through
 		case K_USERS:
 			// fall through
-		case L_DIVERS:
+		case L_DIVERSE:
 			// fall through
-		case S_DIVERS:
+		case S_DIVERSE:
 			res = type.name();
 			break;
 		case RELATION:
