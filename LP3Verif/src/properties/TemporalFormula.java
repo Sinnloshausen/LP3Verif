@@ -120,7 +120,6 @@ public class TemporalFormula extends Formula {
 	}
 
 	public TemporalFormula normalize() {
-		// TODO test
 		// this method returns an equivalent formula in normal form
 		TemporalFormula norm = this;
 		switch(this.type) {
@@ -129,7 +128,6 @@ public class TemporalFormula extends Formula {
 		case GLOBAL:
 			return new TemporalFormula(this.getType(), phi.normalize());
 		case NEGATION:
-			//TODO negation nach innen
 			if (this.getPhi().getType().equals(FormulaType.STATIC)) {
 				StaticFormula a;
 				StaticFormula b;
@@ -166,7 +164,30 @@ public class TemporalFormula extends Formula {
 		}
 		return norm;
 	}
-	
+
+	public TemporalFormula notNormalize() {
+		// this method returns an equivalent formula not in normal form
+		switch (type) {
+		case DISJUNCTION:
+			return new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.DISJUNCTION, phi.notNormalize().getDelta(), phi2.notNormalize().getDelta()));
+		case CONJUNCTION:
+			return new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.CONJUNCTION, phi.notNormalize().getDelta(), phi2.notNormalize().getDelta()));
+		case NEGATION:
+			return new TemporalFormula(FormulaType.STATIC, new StaticFormula(StaticFormula.FormulaType.NEGATION, phi.notNormalize().getDelta()));
+		case FUTURE:
+			// fall through
+		case GLOBAL:
+			return new TemporalFormula(type, phi.notNormalize());
+		case STATIC:
+			break;
+		case CONT:
+			break;
+		case CONTINV:
+			break;
+		}
+		return this;
+	}
+
 	// getter setter
 	public FormulaType getType() {
 		return type;

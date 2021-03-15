@@ -22,8 +22,8 @@ public class Verifier {
 	private Set<State> S;
 
 	// Constructor
-	public Verifier(ExtendedProcess A) {
-		cache = new LinkedHashMap<StateProp, Witness>();
+	public Verifier(ExtendedProcess A, Map<StateProp, Witness> cache) {
+		this.cache = cache;
 		// build all traces from Process A
 		T = A.buildTraces(new Trace());
 		// collect all states
@@ -32,13 +32,19 @@ public class Verifier {
 			S.addAll(t.getSigmas());
 		}
 	}
+	
+	// small Constructor
+	public Verifier(ExtendedProcess A) {
+		this(A, new LinkedHashMap<StateProp, Witness>());
+	}
 
 	// class methods
 	public Witness verify(TemporalFormula phi) throws Exception {
 		// measure time
 		long startTime = System.nanoTime();
 		// normalize the formula
-		TemporalFormula phi_norm = phi.normalize();
+		TemporalFormula phi_norm = phi.notNormalize(); // version without normalizing
+		//TemporalFormula phi_norm = phi.normalize();
 		// collect all static formulas from phi
 		Set<StaticFormula> F = phi_norm.getStatic();
 		// F.addAll(phi_norm.getNegatedStatic());

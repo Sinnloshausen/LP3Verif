@@ -94,19 +94,55 @@ public class State {
 		return false;
 	}
 	
-	// equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((equations == null) ? 0 : equations.hashCode());
+		result = prime * result + index;
+		result = prime * result + ((last == null) ? 0 : last.hashCode());
 		result = prime * result + ((propositions == null) ? 0 : propositions.hashCode());
 		result = prime * result + ((queries == null) ? 0 : queries.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if (equations == null) {
+			if (other.equations != null)
+				return false;
+		} else if (!equations.equals(other.equations))
+			return false;
+		if (index != other.index)
+			return false;
+		if (last == null) {
+			if (other.last != null)
+				return false;
+		} else if (!last.equals(other.last))
+			return false;
+		if (propositions == null) {
+			if (other.propositions != null)
+				return false;
+		} else if (!propositions.equals(other.propositions))
+			return false;
+		if (queries == null) {
+			if (other.queries != null)
+				return false;
+		} else if (!queries.equals(other.queries))
+			return false;
+		return true;
+	}
+
+	//TODO equals version with partial-order reduction
+	//@Override
+	public boolean equalsPO(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
