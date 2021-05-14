@@ -1,6 +1,6 @@
 process Hoh
 	!
-		if k_user
+		if k_users
 			Compute(T=MBB(ts))
 			Query(pid,loc,serv,T)
 		end

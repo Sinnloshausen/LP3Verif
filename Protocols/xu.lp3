@@ -1,8 +1,8 @@
 process Xu
 	if k_users
-		Compute(R=MBB(locs))
 		if l_diverse
 			!
+				Compute(R=MBB(locs))
 				Query(pid,R,serv,t)
 			end
 		end

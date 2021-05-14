@@ -5,6 +5,7 @@ process L2P2
 			Compute(h=hash(pid))
 			if s_diverse
 				Query(h,R,servs,t)
+				Compute(R=MBB(locs))
 				Compute(P=swap(pids))
 				Query(P,R,servs,t)
 			end

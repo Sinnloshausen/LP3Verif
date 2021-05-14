@@ -1,7 +1,7 @@
 process CaDSA
 	!
 		if dummies
-			kQuery(pid_i,loc_i,serv_i,t_i)
+			Query(pids,locs,servs,ts)
 		end
 	end
 end

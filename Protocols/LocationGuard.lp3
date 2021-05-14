@@ -1,0 +1,11 @@
+process LocationGuard
+	!
+		Compute(R=noise(loc))
+		Query(pid,R,serv,t)
+	end
+end
+
+property F1
+	G not K_id
+property F2
+	G not (K_loc and K_t)

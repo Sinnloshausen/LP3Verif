@@ -1,8 +1,8 @@
 process PRIVE
 	!
 		if k_users
-			Compute(R=MBB(locs))
 			Compute(h=hash(pid))
+			Compute(R=MBB(locs))
 			Query(h,R,serv,t)
 		end
 	end

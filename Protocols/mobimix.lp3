@@ -1,8 +1,8 @@
 process MobiMix
+	Query(pid,loc,serv,t)
 	!
 		if k_users
-			Query(pid,loc,serv,t)
-			Compute(P=swap(pids))
+			Compute(P=swap(pid))
 			Query(P,loc,serv,t)
 		end
 	end
