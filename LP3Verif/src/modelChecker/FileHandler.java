@@ -38,7 +38,7 @@ public class FileHandler {
     File file = new File(fullPath);
     try {
       if (!file.createNewFile()) {
-        // TODO maybe ask the user?
+        // maybe ask the user?
         // System.out.println("File already exists. Overwriting...");
       }
       // write into the file

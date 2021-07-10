@@ -67,7 +67,6 @@ public class SolverHandler {
 	 * @return true, if successful
 	 */
 	public Witness runSolver(String buffer, StaticFormula property) throws Exception {
-		//TODO cvc-specific output
 		// create file handler
 		FileHandler file = new FileHandler(filePath, fileName);
 		byte[] lines = (buffer).getBytes();
@@ -96,25 +95,19 @@ public class SolverHandler {
 				lastLine = line;
 			}
 			if (secondLastLine.equals("sat") || secondLastLine.equals("unknown")) {
-				//TODO debug info
-				//System.out.println("Violation of property found");
-				//System.out.println(lastLine);
 				return new Witness(false, lastLine, null, null, property);
 			} else if (secondLastLine.equals("unsat")) {
 				// Trace: pass on output
-				//TODO DEBUG
-				//System.out.println("No violation of property found");
 				return new Witness(true, property);
+			} else {
+				System.out.println("Unexpected return from SMT solver:");
+				System.out.println(secondLastLine);
+				System.out.println(lastLine);
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 			throw new Exception(e);
 		}
-		// Give more information
-		//TODO DEBUG
-		//System.out.println("The result was probably 'unsat', therefore the two conflicting statements are in:");
-		//System.out.println(history.subList(history.size() - 2, history.size()));
-		//System.out.println("Property not proven!");
 		throw new Exception("Something unexpected happened...");
 	}
 

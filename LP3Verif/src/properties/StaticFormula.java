@@ -32,7 +32,6 @@ public class StaticFormula extends Formula {
 
 	// class methods
 	public StaticFormula negate() {
-		// TODO Auto-generated method stub
 		switch (type) {
 		case CONJUNCTION:
 			return new StaticFormula(FormulaType.DISJUNCTION, delta.negate(), delta2.negate());

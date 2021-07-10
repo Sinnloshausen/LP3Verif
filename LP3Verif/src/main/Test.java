@@ -15,7 +15,7 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 		// measure overall time
-		long startTime = System.nanoTime();
+		//long startTime = System.nanoTime();
 
 		// start the program
 		if (!ConfigReader.readConfig()) {
@@ -39,7 +39,7 @@ public class Test {
 			scanIn.close();
 		}
 
-		long beforeParseTime = System.nanoTime();
+		//long beforeParseTime = System.nanoTime();
 		parser = new Parser(path);
 		parser.parse();
 		String procName = parser.getProcName();
@@ -51,11 +51,11 @@ public class Test {
 			System.out.println("The property " + propNames.get(i) + ": " + properties.get(i));
 		}
 
-		long beforeTraceTime = System.nanoTime();
+		//long beforeTraceTime = System.nanoTime();
 		// verification
 		Witness res;
 		Verifier verif = new Verifier(proc);
-		long beforeVerifTime = System.nanoTime();
+		//long beforeVerifTime = System.nanoTime();
 		for (TemporalFormula phi : properties) {
 			try {
 				res = verif.verify(phi);
@@ -74,16 +74,15 @@ public class Test {
 					System.out.println("+-----+");
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		// measure overall time
-		long stopTime = System.nanoTime();
-		System.out.println("Overall: " + (stopTime - startTime));
-		System.out.println("Parsing: " + (beforeTraceTime - beforeParseTime));
-		System.out.println("Traces: " + (beforeVerifTime - beforeTraceTime));
-		System.out.println("Verification: " + (stopTime - beforeVerifTime));
+		//long stopTime = System.nanoTime();
+		//System.out.println("Overall: " + (stopTime - startTime));
+		//System.out.println("Parsing: " + (beforeTraceTime - beforeParseTime));
+		//System.out.println("Traces: " + (beforeVerifTime - beforeTraceTime));
+		//System.out.println("Verification: " + (stopTime - beforeVerifTime));
 	}
 
 }

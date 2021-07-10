@@ -97,7 +97,6 @@ public class TemporalFormula extends Formula {
 	}
 
 	public TemporalFormula negate() {
-		// TODO test
 		switch (type) {
 		case CONJUNCTION:
 			return new TemporalFormula(FormulaType.DISJUNCTION, phi.negate(), phi2.negate());

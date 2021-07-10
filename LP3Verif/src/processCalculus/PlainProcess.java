@@ -105,7 +105,6 @@ public class PlainProcess implements Process {
 	}
 
 	// equals
-	//TODO	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

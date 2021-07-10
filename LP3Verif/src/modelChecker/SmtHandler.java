@@ -10,7 +10,6 @@ public class SmtHandler {
 	 * Type of SMT command.
 	 */
 	private enum Command {
-		// TODO more commands?
 		DECLARE, DEFINE, ASSERT, CHECK, OPTION, POP, PUSH, UNSAT, VALUE
 	}
 
@@ -18,7 +17,6 @@ public class SmtHandler {
 	 * Type of variable.
 	 */
 	private enum VariableType {
-		// TODO more types?
 		BOOL, INT, EQ, VAR, REGION, LOCSPE, NULL, LOC, ID, GROUP, TIME, FRAME, SERV, SERVS, QUERY;
 
 		@Override
@@ -96,7 +94,7 @@ public class SmtHandler {
 	 * @throws Exception 
 	 */
 	public Witness verify(State sigma, StaticFormula property) throws Exception {
-		//TODO use push/pop for more efficiency
+		// future work: use push/pop for more efficiency
 		int i = 1;
 		for (Query q : sigma.getQueries()) {
 			addLineSmt(Command.ASSERT, "QUERY" + i, null, q.makeSMT(i), null, null);
@@ -127,7 +125,7 @@ public class SmtHandler {
 	}
 
 	private String makeQRY(int i) {
-		// TODO generate an impossible query, i.e., divers group. region. service, frame
+		// generate an impossible query, i.e., divers group. region. service, frame
 		String tmp = " (insert 1 2 (singleton 3)))";
 		String tmp_long = " (insert 1 2 3 4 5 6 7 8 (singleton 9)))";
 		return "(and (= G" + i + tmp_long + " (= R" + i + tmp_long + " (= S" + i + tmp + " (= F" + i + tmp + ")";
@@ -137,11 +135,9 @@ public class SmtHandler {
 		String ret = "";
 		switch (property.getType()) {
 		case KID:
-			//TODO klappt das?
 			ret = "(or (= 1 (card G1)) (= 1 (card (intersection G1 G2))))";
 			break;
 		case KLOC:
-			//TODO richtig so?
 			ret = "(or (= 1 (card R1)) (= 1 (card (intersection R1 (move R2)))) (= 1 (card (intersection R2 (move R1)))))";
 			break;
 		case KSERV:
@@ -200,7 +196,6 @@ public class SmtHandler {
 	 * equations.
 	 */
 	private void declareVariables() {
-		//TODO more
 		addLineSmt(Command.DECLARE, "R1", SmtType.FUN, null, VariableType.NULL, VariableType.REGION);
 		addLineSmt(Command.DECLARE, "R2", SmtType.FUN, null, VariableType.NULL, VariableType.REGION);
 		addLineSmt(Command.DECLARE, "loc", SmtType.FUN, null, VariableType.NULL, VariableType.LOC);
@@ -229,7 +224,7 @@ public class SmtHandler {
 	}
 
 	private void defineVars() {
-		// TODO assert all fixed values and dependencies for variables
+		// assert all fixed values and dependencies for variables
 		addLineSmt(Command.ASSERT, "LOC", null, "(and (> loc 0) (< loc 10))", null, null);
 		addLineSmt(Command.ASSERT, "LOC1", null, "(and (> loc_1 0) (< loc_1 10))", null, null);
 		addLineSmt(Command.ASSERT, "LOC2", null, "(and (> loc2 0) (< loc2 10))", null, null);
@@ -256,7 +251,7 @@ public class SmtHandler {
 	}
 
 	private void defineFuncs() {
-		// TODO assert all function facts
+		// assert all function facts
 		// MBB explicitly
 		addLineSmt(Command.ASSERT, "MBB1", null, "(= (MBB (singleton 1)) (singleton 1))", null, null); // one element
 		addLineSmt(Command.ASSERT, "MBB2", null, "(= (MBB (singleton 2)) (singleton 2))", null, null);
@@ -896,14 +891,12 @@ public class SmtHandler {
 			}
 			break;
 		case CHECK:
-			// TODO more options?
 			addBuffer("( check-sat )" + System.lineSeparator());
 			break;
 		case UNSAT:
 			addBuffer("( get-unsat-core )" + System.lineSeparator());
 			break;
 		case OPTION:
-			// TODO different options
 			addBuffer("( set-logic UFLIAFS )" + System.lineSeparator());
 			addBuffer("( set-option :produce-models true )" + System.lineSeparator());
 			addBuffer("( set-option :produce-unsat-cores true )" + System.lineSeparator());

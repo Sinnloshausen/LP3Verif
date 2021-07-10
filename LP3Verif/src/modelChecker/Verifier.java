@@ -41,7 +41,7 @@ public class Verifier {
 	// class methods
 	public Witness verify(TemporalFormula phi) throws Exception {
 		// measure time
-		long startTime = System.nanoTime();
+		//long startTime = System.nanoTime();
 		// normalize the formula
 		TemporalFormula phi_norm = phi.notNormalize(); // version without normalizing
 		//TemporalFormula phi_norm = phi.normalize();
@@ -49,14 +49,14 @@ public class Verifier {
 		Set<StaticFormula> F = phi_norm.getStatic();
 		// F.addAll(phi_norm.getNegatedStatic());
 		// measure time
-		long afterGetStaticTime = System.nanoTime();
+		//long afterGetStaticTime = System.nanoTime();
 		// create array for static properties
 		Witness[][] B = new Witness[S.size()][F.size()];
 		// temporary Lists
 		List<State> lS = new ArrayList<State>(S);
 		List<StaticFormula> lF = new ArrayList<StaticFormula>(F);
 		// measure time
-		long beforeStaticTime = System.nanoTime();
+		//long beforeStaticTime = System.nanoTime();
 		// go through all states and formulas
 		for (State s : lS) {
 			for (StaticFormula f : lF) {
@@ -78,37 +78,35 @@ public class Verifier {
 			}
 		}
 		// measure time
-		long afterStaticTime = System.nanoTime();
+		//long afterStaticTime = System.nanoTime();
 		// check the phi for all traces
-		long stopTime;
+		//long stopTime;
 		for (Trace t : T) {
 			Witness tmp = checkTemporal(T, B, phi_norm, t, 0, lS, lF);
 			if (!tmp.getBool()) {
-				stopTime = System.nanoTime();
-				System.out.println("Overall: " + (stopTime - startTime));
-				System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
-				System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
-				System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
+				//stopTime = System.nanoTime();
+				//System.out.println("Overall: " + (stopTime - startTime));
+				//System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
+				//System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
+				//System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
 				return tmp;
 			}
 		}
 		// measure time
-		stopTime = System.nanoTime();
-		System.out.println("Overall: " + (stopTime - startTime));
-		System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
-		System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
-		System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
+		//stopTime = System.nanoTime();
+		//System.out.println("Overall: " + (stopTime - startTime));
+		//System.out.println("GetStatic: " + (afterGetStaticTime - startTime));
+		//System.out.println("CheckStatic: " + (afterStaticTime - beforeStaticTime));
+		//System.out.println("CheckTemporal: " + (stopTime - afterStaticTime));
 		return new Witness(true);
 	}
 
 	private static Witness checkStatic(StaticFormula delta, State s) throws Exception {
-		//TODO test
 		SmtHandler smt = new SmtHandler();
 		return smt.verify(s, delta);
 	}
 
 	private static Witness checkTemporal(Set<Trace> T, Witness[][] B, TemporalFormula phi, Trace t0, int i, List<State> lS, List<StaticFormula> lF) {
-		//TODO test
 		Witness tmp1 = new Witness(false);
 		Witness tmp2 = new Witness(false);
 		int q = 0;

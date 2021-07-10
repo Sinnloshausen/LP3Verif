@@ -37,7 +37,6 @@ public class Predicate {
 	}
 
 	public String makeSMT(int i) {
-		// TODO finish and test
 		String ret = "";
 		switch (type) {
 		case DUMMIES:
@@ -45,7 +44,6 @@ public class Predicate {
 			ret = "(and (= pid11 pid21) (= pid12 pid22) (= pid13 pid23) (= pid14 pid24))";
 			break;
 		case K_USERS:
-			//TODO irgendwas zu asserten??
 			ret = "true";
 			break;
 		case L_DIVERSE:
@@ -53,7 +51,6 @@ public class Predicate {
 			ret = "(> (card R) 1)";
 			break;
 		case RELATION:
-			//TODO irgendwas zu asserten??
 			ret = r.makeSMT(i);
 			break;
 		case S_DIVERSE:

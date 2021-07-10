@@ -51,7 +51,7 @@ public class Witness {
 	}
 
 	public String shortestTrace(Set<Trace> T) {
-		// TODO returns the shortest trace to reach the state
+		// returns the shortest trace to reach the state
 		if (state == null) {
 			return null;
 		}
@@ -106,6 +106,10 @@ public class Witness {
 	
 	public String getTrace() {
 		return trace;
+	}
+	
+	public StaticFormula getFormula() {
+		return formula;
 	}
 
 }

@@ -34,7 +34,6 @@ public class Query {
 	}
 
 	public String makeSMTProp(int i) {
-		// TODO more to do?
 		String statement = "true";
 		if (props.size() == 1) {
 			for (Predicate p : props) {

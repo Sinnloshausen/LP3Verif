@@ -48,7 +48,6 @@ public class Relation {
 
 	// class methods
 	public String makeSMT(int i) {
-		// TODO test
 		String statement = "";
 		switch (type) {
 		case EQUAL:

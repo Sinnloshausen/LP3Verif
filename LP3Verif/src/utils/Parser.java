@@ -31,8 +31,6 @@ import terms.Term.TermType;
 
 public class Parser {
 
-	//TODO parse a .lp3 file into a process and a set of properties
-
 	// class fields
 	private String filePath;
 	private ExtendedProcess process;
@@ -47,7 +45,7 @@ public class Parser {
 	}
 
 	public void parse() throws IOException {
-		//TODO use a proper grammar/parser?
+		// future work: use a proper grammar/parser?
 
 		// a bit hacky
 		// Read data from file
@@ -88,7 +86,7 @@ public class Parser {
 					}
 					if (pred == null) {
 						// relation found
-						//TODO parse into relation object
+						// parse into relation object
 						pred = parseRelation(p);
 					}
 					PlainProcess p_if = new PlainProcess(ProcessType.CONDITION, pred, p0, p0);
@@ -97,7 +95,7 @@ public class Parser {
 				}
 				if (line.substring(0, 3).equals("end")) {
 					// end key word found
-					//TODO close the last opened construct
+					// close the last opened construct
 					PlainProcess last = p0;
 					PlainProcess current = null;
 					if (finished.containsAll(procs)) {
@@ -174,7 +172,8 @@ public class Parser {
 					}
 					if (pred == null) {
 						// relation found
-						//TODO parse into relation object
+						pred = new Predicate(PredicateType.RELATION);
+						// future work: parse into proper relation object
 					}
 					PlainProcess p_while = new PlainProcess(ProcessType.WHILE, pred, p0, p0);
 					procs.add(p_while);
@@ -218,7 +217,6 @@ public class Parser {
 					continue;
 				}
 				if (line.substring(0, 8).equals("property")) {
-					//TODO what about parentheses and precedence?
 					// property key word found
 					propNames.add(line.substring(9).trim());
 					List<TemporalFormula> props = new LinkedList<TemporalFormula>();
@@ -301,7 +299,6 @@ public class Parser {
 					properties.add(current);
 					continue;
 				}
-				//TODO else
 			}
 		}
 	}
@@ -327,12 +324,11 @@ public class Parser {
 	}
 
 	private Predicate parseRelation(String p) {
-		// TODO not high priority right now
+		// future work
 		return null;
 	}
 
 	private Term parseTerm(String t) {
-		// TODO test
 		if (t.contains("(")) {
 			// function detected
 			Function fun = null;

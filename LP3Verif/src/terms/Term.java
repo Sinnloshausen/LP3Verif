@@ -49,7 +49,7 @@ public class Term {
 
 	// class methods
 	public Term update(Set<Equation> equations) {
-		// TODO replace all names in the term by the rhs of the corresponding equation
+		// replace all names in the term by the rhs of the corresponding equation
 		Term res = new Term(this);
 		switch (type) {
 		case NAME:
@@ -72,7 +72,7 @@ public class Term {
 	}
 
 	public String makeSMT() {
-		// TODO recursively create smt-function syntax
+		// recursively create smt-function syntax
 		String smt = "";
 		switch (type) {
 		case FUNC:

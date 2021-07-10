@@ -42,7 +42,7 @@ public class ExtendedProcess implements Process {
 
 	// class methods
 	public Set<Trace> buildTraces(Trace T) {
-		//TODO build all possible traces starting from this process
+		// build all possible traces starting from this process
 		T.addState(this);
 		if (this.isNullP()) {
 			// end of a trace reached

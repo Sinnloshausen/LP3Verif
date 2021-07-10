@@ -70,7 +70,7 @@ public class State {
 	}
 
 	private static Set<Equation> replEqu(Set<Equation> E, Equation eq, Name n) {
-		// TODO replace the one equation with lhf = n
+		// replace the one equation with lhf = n
 		Set<Equation> S = null;
 		for (Equation e : E) {
 			if (e.getLhs().equals(n)) {
@@ -85,7 +85,7 @@ public class State {
 
 	// class methods
 	public boolean contains(Name name) {
-		// TODO returns true if the equations already contain the name
+		// returns true if the equations already contain the name
 		for (Equation e : equations) {
 			if (e.getLhs().equals(name)) {
 				return true;
@@ -140,7 +140,7 @@ public class State {
 		return true;
 	}
 
-	//TODO equals version with partial-order reduction
+	// equals version with partial-order reduction
 	//@Override
 	public boolean equalsPO(Object obj) {
 		if (this == obj)
